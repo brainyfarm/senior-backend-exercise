@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, NotFoundException } from '@nestjs/common';
 import { InMemoryOrderRepository } from './order.repository';
 import { CreateOrderDto } from '../application/create-order.dto';
 import { Order } from '../domain/order';
@@ -24,7 +24,7 @@ export class OrderController {
   @Get(':id')
   async getOrder(@Param('id') id: string) {
     const order = await this.orderRepository.findById(id);
-    if (!order) throw new Error('Order not found');
+    if (!order) throw new NotFoundException('Order not found');
     return order;
   }
 }
